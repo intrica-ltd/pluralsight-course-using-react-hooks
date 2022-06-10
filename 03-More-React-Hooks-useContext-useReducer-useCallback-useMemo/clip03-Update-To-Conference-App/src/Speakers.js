@@ -5,27 +5,15 @@ import { Menu } from './Menu';
 import SpeakerData from './SpeakerData';
 import SpeakerDetail from './SpeakerDetail';
 import { ConfigContext } from './App';
+import SpeakersReducer from "./speakersReducer";
 
 const Speakers = ({}) => {
   const [speakingSaturday, setSpeakingSaturday] = useState(true);
   const [speakingSunday, setSpeakingSunday] = useState(true);
 
-  // CODE ONLY LEFT HERE COMMENTED OUT FOR TEACH PURPOSES.
-  // BEST PRACTICE WOULD BE TO REMOVE COMMENTED CODE OUT AS IT
-  //   WOULD BE IN SOURCE CONTROL AND NOT NECESSARY.
-
   //const [speakerList, setSpeakerList] = useState([]);
 
-  function speakersReducer(state, action) {
-    switch (action.type) {
-      case 'setSpeakerList': {
-        return action.data;
-      }
-      default:
-        return state;
-    }
-  }
-  const [speakerList, dispatch] = useReducer(speakersReducer, []);
+  const [speakerList, dispatch] = useReducer(SpeakersReducer, []);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -82,19 +70,19 @@ const Speakers = ({}) => {
     e.preventDefault();
     const sessionId = parseInt(e.target.attributes['data-sessionid'].value);
 
-    alert(
-      'PLURALSIGHT COURSE NOTE: setSpeakerList IS BROKEN ON PURPOSE.  THIS IS FIXED IN NEXT CLIP',
-    );
+    dispatch({
+      type: favoriteValue === true ? "favorite" : "unfavorite",
+      sessionId
+    });
 
-    // PLURALSIGHT COURSE NOTE: setSpeakerList IS BROKEN ON PURPOSE.  THIS IS FIXED IN NEXT CLIP
-    setSpeakerList(
-      speakerList.map((item) => {
-        if (item.id === sessionId) {
-          return { ...item, favorite: favoriteValue };
-        }
-        return item;
-      }),
-    );
+    // setSpeakerList(
+    //   speakerList.map((item) => {
+    //     if (item.id === sessionId) {
+    //       return { ...item, favorite: favoriteValue };
+    //     }
+    //     return item;
+    //   }),
+    // );
   };
 
   if (isLoading) return <div>Loading...</div>;
