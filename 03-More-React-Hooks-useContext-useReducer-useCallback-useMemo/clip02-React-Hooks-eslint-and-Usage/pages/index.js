@@ -5,7 +5,7 @@ const InputElement = () => {
   //const [isLoading,setIsLoading] = useState(true);
 
   // (this will cause a random warning in console debug messages because server-side and client side both have random
-  //   number generation.  Just ignore the error as it does not effect the point we are making here with the React hooks rule).
+  //   number generation.  Just ignore the error as it does not affect the point we are making here with the React hooks rule).
   //     Warning: Expected server HTML to contain a matching <input> in <div>.
   const [isLoading, setIsLoading] = useState(random_boolean === true);
 
