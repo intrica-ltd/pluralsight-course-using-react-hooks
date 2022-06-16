@@ -1,17 +1,17 @@
-import {useContext, useEffect, useReducer} from "react";
-import speakersReducer from "./speakersReducer";
+import { useEffect, useReducer} from "react";
+import speakersReducer from "../reducers/speakersReducer";
 import axios from "axios";
 
-import {InitialSpeakersDataContext} from "../pages/speakers";
-
 function useSpeakerDataManager() {
-
-    const initialSpeakersData = useContext(InitialSpeakersDataContext);
-
-    const [{isLoading, speakerList}, dispatch] = useReducer(speakersReducer, {
+    const [{isLoading, speakerList, favoriteClickCount}, dispatch] = useReducer(speakersReducer, {
         isLoading: true,
         speakerList: [],
+        favoriteClickCount: 0,
     });
+
+    function incrementFavoriteClickCount() {
+        dispatch({type: 'incrementFavoriteClickCount'});
+    }
 
     function toggleSpeakerFavorite(speakerRec) {
         const updateData = async function () {
@@ -44,7 +44,10 @@ function useSpeakerDataManager() {
             console.log('cleanup');
         };
     }, []); // [speakingSunday, speakingSaturday]);
-    return {isLoading, speakerList, toggleSpeakerFavorite};
+    return {
+        isLoading, speakerList,
+        favoriteClickCount, incrementFavoriteClickCount, toggleSpeakerFavorite
+    };
 }
 
 export default useSpeakerDataManager;

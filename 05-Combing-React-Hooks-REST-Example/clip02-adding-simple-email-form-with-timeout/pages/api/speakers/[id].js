@@ -3,7 +3,7 @@ import fs from "fs";
 
 const {promisify} = require('util');
 const readFile = promisify(fs.readFile);
-const writeFile = prmisify(fs.writeFile);
+const writeFile = promisify(fs.writeFile);
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default async function handler(req, res) {
