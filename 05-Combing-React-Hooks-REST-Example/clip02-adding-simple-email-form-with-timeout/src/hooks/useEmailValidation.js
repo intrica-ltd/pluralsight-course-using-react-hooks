@@ -14,14 +14,12 @@ function useEmailValidation(seconds) {
     };
 
     const [email, setEmail] = useReducer(emailReducer, '');
-    const maxSeconds = seconds;
-    const [count, setCount] = useState(maxSeconds);
+    const [count, setCount] = useState(seconds);
 
     useInterval(() => {
         setCount(count - 1);
     }, 1000);
-    const retObject = {setEmail, count, email, emailValid, setCount};
-    return retObject;
+    return {setEmail, count, email, emailValid, setCount};
 }
 
 export default useEmailValidation;
