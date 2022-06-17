@@ -1,42 +1,48 @@
-import { useEffect, useReducer} from "react";
+import {useEffect, useReducer} from "react";
 import speakersReducer from "./speakersReducer";
 import axios from "axios";
 
 function useSpeakerDataManager() {
-    const [{isLoading, speakerList, favoriteClickCount}, dispatch] = useReducer(speakersReducer, {
-        isLoading: true,
-        speakerList: [],
-        favoriteClickCount: 0,
-    });
+    const [{
+        isLoading, speakerList, favoriteClickCount, hasErrored, error,
+        imageRerenderIdentifier
+    }, dispatch] = useReducer(
+        speakersReducer,
+        {
+            isLoading: true,
+            speakerList: [],
+            favoriteClickCount: 0,
+            error: null,
+            imageRerenderIdentifier: 0
+        });
 
     function incrementFavoriteClickCount() {
         dispatch({type: 'incrementFavoriteClickCount'});
     }
 
+    function forceImageRerender() {
+        dispatch({type: 'forceImageRerender'});
+    }
+
     function toggleSpeakerFavorite(speakerRec) {
         const updateData = async function () {
             axios.put(`api/speakers/${speakerRec.id}`, {...speakerRec, favorite: !speakerRec.favorite,});
-            speakerRec.favorite === true
-                ? dispatch({type: "unfavorite", id: speakerRec.id})
-                : dispatch({type: "favorite", id: speakerRec.id});
+            speakerRec.favorite === true ? dispatch({
+                type: "unfavorite",
+                id: speakerRec.id
+            }) : dispatch({type: "favorite", id: speakerRec.id});
         };
         updateData();
     }
 
     useEffect(() => {
-        //     new Promise(function (resolve) {
-        //         setTimeout(function () {
-        //             resolve();
-        //         }, 1000);
-        //     }).then(() => {
-        //         dispatch({
-        //             type: 'setSpeakerList',
-        //             data: SpeakerData,
-        //         });
-        //     });
         let fetchData = async function () {
+            try {
             let result = await axios.get('api/speakers');
             dispatch({type: 'setSpeakerList', data: result.data});
+            } catch (e) {
+                dispatch({type: 'errored', error: e});
+            }
         };
         fetchData();
 
@@ -45,8 +51,15 @@ function useSpeakerDataManager() {
         };
     }, []); // [speakingSunday, speakingSaturday]);
     return {
-        isLoading, speakerList,
-        favoriteClickCount, incrementFavoriteClickCount, toggleSpeakerFavorite
+        isLoading,
+        speakerList,
+        favoriteClickCount,
+        incrementFavoriteClickCount,
+        toggleSpeakerFavorite,
+        error,
+        hasErrored,
+        forceImageRerender,
+        imageRerenderIdentifier,
     };
 }
 

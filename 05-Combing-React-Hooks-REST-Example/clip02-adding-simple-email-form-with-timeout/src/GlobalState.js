@@ -11,6 +11,10 @@ export const GlobalProvider =
             toggleSpeakerFavorite,
             favoriteClickCount,
             incrementFavoriteClickCount,
+            hasErrored,
+            error,
+            imageRerenderIdentifier,
+            forceImageRerender
         } = useSpeakerDataManager();
 
         const provider = {
@@ -19,6 +23,10 @@ export const GlobalProvider =
             toggleSpeakerFavorite,
             favoriteClickCount,
             incrementFavoriteClickCount,
+            hasErrored,
+            error,
+            imageRerenderIdentifier,
+            forceImageRerender,
         };
 
         return <GlobalContext.Provider value={provider}>{children}</GlobalContext.Provider>;
