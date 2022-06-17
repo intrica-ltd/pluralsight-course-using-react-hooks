@@ -1,10 +1,10 @@
 import React from "react";
-import useSpeakerDataManager from "./hooks/useSpeakerDataManager";
+import useSpeakerDataManager from "./useSpeakerDataManager";
 
-export const GlobalContext = React.createContext();
-
-export const GlobalProvider = ({children}) => {
-
+export const GlobalContext =
+    React.createContext();
+export const GlobalProvider =
+    ({children}) => {
         const {
             isLoading,
             speakerList,

@@ -1,4 +1,4 @@
-import useEmailValidation from "./hooks/useEmailValidation";
+import useEmailValidation from "./useEmailValidation";
 
 function EmailValidatingForm() {
 
